@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi Absensi Multi User</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+        input, select, button {
+            width: 90%;
+            padding: 10px;
+            margin: 5px;
+        }
+        table {
+            margin: auto;
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 90%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        #absenPage {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="container" id="loginPage">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- ABSENSI -->
+<div id="absenPage">
+    <h2>Form Absensi</h2>
+    
+    <input type="text" id="nama" readonly><br>
+    <input type="text" id="hari" placeholder="Hari"><br>
+    <input type="number" id="tanggal" placeholder="Tanggal"><br>
+
+    <!-- BULAN -->
+    <select id="bulan">
+        <option value="">Pilih Bulan</option>
+        <option>Januari</option>
+        <option>Februari</option>
+        <option>Maret</option>
+        <option>April</option>
+        <option>Mei</option>
+        <option>Juni</option>
+        <option>Juli</option>
+        <option>Agustus</option>
+        <option>September</option>
+        <option>Oktober</option>
+        <option>November</option>
+        <option>Desember</option>
+    </select>
+
+    <input type="number" id="tahun" placeholder="Tahun"><br>
+    
+    <button onclick="tambahData()">Absen</button>
+    <button onclick="printData()">Print</button>
+
+    <table id="tabelAbsen">
+        <tr>
+            <th>Nama</th>
+            <th>Hari</th>
+            <th>Tanggal</th>
+            <th>Bulan</th>
+            <th>Tahun</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+    const users = [
+        {username: "yuzma", password: "12345"},
+        {username: "yudiadnor", password: "12345"},
+        {username: "kuat", password: "12345"},
+        {username: "mulkan", password: "12345"},
+        {username: "wardiansyah", password: "12345"},
+        {username: "maulana", password: "12345"},
+        {username: "maimunah", password: "12345"},
+        {username: "nursamah", password: "12345"},
+        {username: "abdul malik", password: "12345"},
+        {username: "wahdayati", password: "12345"}
+    ];
+
+    let userLogin = "";
+
+    function login() {
+        let user = document.getElementById("username").value;
+        let pass = document.getElementById("password").value;
+
+        let found = users.find(u => u.username === user && u.password === pass);
+
+        if (found) {
+            userLogin = user;
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("absenPage").style.display = "block";
+            document.getElementById("nama").value = userLogin;
+        } else {
+            alert("Username atau Password salah!");
+        }
+    }
+
+    function tambahData() {
+        let nama = userLogin;
+        let hari = document.getElementById("hari").value;
+        let tanggal = document.getElementById("tanggal").value;
+        let bulan = document.getElementById("bulan").value;
+        let tahun = document.getElementById("tahun").value;
+
+        if (hari === "" || tanggal === "" || bulan === "" || tahun === "") {
+            alert("Harap isi semua data!");
+            return;
+        }
+
+        let table = document.getElementById("tabelAbsen");
+        let row = table.insertRow();
+
+        row.insertCell(0).innerHTML = nama;
+        row.insertCell(1).innerHTML = hari;
+        row.insertCell(2).innerHTML = tanggal;
+        row.insertCell(3).innerHTML = bulan;
+        row.insertCell(4).innerHTML = tahun;
+
+        document.getElementById("hari").value = "";
+        document.getElementById("tanggal").value = "";
+        document.getElementById("bulan").value = "";
+        document.getElementById("tahun").value = "";
+    }
+
+    function printData() {
+        window.print();
+    }
+</script>
+
+</body>
+</html>
